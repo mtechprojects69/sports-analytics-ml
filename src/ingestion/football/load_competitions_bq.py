@@ -1,4 +1,4 @@
-from services.bigquery_service import BigQueryService
+from clients.bigquery_client import BigQueryService
 
 PROJECT_ID = "sports-analytics-ml"
 DATASET_ID = "dev_raw"

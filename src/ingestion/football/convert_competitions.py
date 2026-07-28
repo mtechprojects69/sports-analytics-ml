@@ -1,4 +1,4 @@
-from services.storage_service import StorageService
+from clients.storage_client import StorageService
 from utils.json_converter import json_to_ndjson
 
 BUCKET = "sports-data-dev"

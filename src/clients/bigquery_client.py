@@ -1,7 +1,7 @@
 from google.cloud import bigquery
 
 
-class BigQueryService:
+class BigQueryClient:
     def __init__(self, project_id: str):
         self.client = bigquery.Client(project=project_id)
 
