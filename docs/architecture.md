@@ -1,96 +1,125 @@
-# Sports Analytics Platform
+# Arquitetura de Dados
 
-## Visão
-
-Construir uma plataforma SaaS para análise de dados esportivos, iniciando pelo futebol, capaz de ingerir dados de múltiplas fontes, processá-los, disponibilizá-los para BI e oferecer funcionalidades analíticas para clubes, analistas, scouts e entusiastas.
-
----
-
-# Objetivos
-
-- Arquitetura Cloud Native
-- Custos baixos durante o MVP
-- Escalabilidade
-- Dados auditáveis
-- Código desacoplado da infraestrutura
-- Fácil colaboração entre desenvolvedores
-
----
-
-# Stack Tecnológica
-
-## Linguagem
-
-Python 3.13
-
-## Cloud
-
-Google Cloud Platform
-
-## Data Lake
+## Landing
 
 Cloud Storage
 
-## Data Warehouse
+Formato original
+
+JSON
+
+CSV
+
+Parquet
+
+Estrutura
+
+landing/
+
+statsbomb/
+
+football-data/
+
+clubelo/
+
+---
+## Mapeamento das Camadas
+
+| Camada Conceitual | Implementação Física |
+|-------------------|----------------------|
+| Landing | Cloud Storage |
+| Bronze | BigQuery - dev_raw |
+| Silver | BigQuery - dev_core |
+| Gold | BigQuery - dev_marts |
+
+> Neste projeto utilizamos a nomenclatura Bronze, Silver e Gold para representar as camadas da arquitetura Medallion. No BigQuery, essas camadas são implementadas fisicamente nos datasets `dev_raw`, `dev_core` e `dev_marts`.
+
+---
+
+## Bronze
 
 BigQuery
 
-## Transformações
+Uma entidade = uma tabela
 
-dbt
+Exemplo
 
-## Versionamento
+bronze_statsbomb_competitions
 
-Git + GitHub
+bronze_statsbomb_matches
 
-## BI
+bronze_statsbomb_events
 
-Looker Studio
-
-## Aplicação
-
-Streamlit
-
-## Orquestração (futura)
-
-Dagster
+bronze_statsbomb_lineups
 
 ---
 
-# Princípios
+## Silver
 
-- Landing sempre imutável
-- JSON como formato bruto
-- Parquet como formato otimizado
-- BigQuery como Data Warehouse principal
-- dbt para todas as transformações
-- Código desacoplado do GCP
-- Infraestrutura como detalhe de implementação
+Modelo normalizado.
+
+Exemplo
+
+silver_competitions
+
+silver_matches
+
+silver_teams
+
+silver_players
+
+silver_events
+
+silver_lineups
 
 ---
 
-# Roadmap
+## Gold
 
-Sprint 1
-Infraestrutura básica
+Modelo analítico.
 
-Sprint 2
-Primeira ingestão
+Exemplo
 
-Sprint 3
-Modelo Bronze
+gold_match_features
 
-Sprint 4
-Modelo Silver
+gold_team_features
 
-Sprint 5
-Modelo Gold
+gold_player_features
 
-Sprint 6
-Dashboard MVP
+gold_predictions
 
-Sprint 7
-Deploy MVP
+gold_dashboard_metrics
 
-Sprint 8
-Primeiros usuários
+---
+
+# Padrões
+
+Todas as tabelas devem possuir:
+
+created_at
+
+updated_at
+
+source
+
+ingestion_date
+
+---
+
+# Estratégia de Particionamento
+
+Match Date
+
+Ingestion Date
+
+---
+
+# Estratégia de Clusterização
+
+competition_id
+
+season_id
+
+match_id
+
+team_id
