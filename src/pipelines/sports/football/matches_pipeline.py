@@ -9,7 +9,7 @@ from config.settings import RAW_DATASET
 from config.settings import PROJECT_ID
 
 from clients.storage_client import StorageClient
-from domain.repositories.competition_repository import CompetitionRepository
+from domain.repositories.season_repository import CompetitionRepository
 
 
 class MatchesPipeline(CollectionPipeline):

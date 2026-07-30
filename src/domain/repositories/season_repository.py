@@ -9,7 +9,6 @@ class CompetitionRepository:
         self.bq = BigQueryClient(PROJECT_ID)
 
     def find_competition_seasons(self) -> list[dict]:
-        '''raise Exception("ENTROU NO MÉTODO NOVO")'''
         
         sql = f"""
         SELECT DISTINCT

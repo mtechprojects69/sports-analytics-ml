@@ -18,4 +18,4 @@ class BasePipeline(ABC):
     def run(self):
         data = self.extract()
         data = self.transform(data)
-        self.load(data)
+        return self.load(data)

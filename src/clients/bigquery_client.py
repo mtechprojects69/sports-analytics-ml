@@ -9,10 +9,12 @@ class BigQueryClient:
             location=BQ_LOCATION,
         )
 
-    def query(self, sql: str) -> list[dict]:
-        print("=== SQL ===")
-        print(repr(sql))
-        print("===========")
+    def query(
+        self,
+        sql: str,
+        params: dict | None = None,
+    ) -> list[dict]:
+        repr(sql)
         query_job = self.client.query(sql)
 
         rows = query_job.result()
@@ -42,6 +44,43 @@ class BigQueryClient:
 
         job.result() 
 
+    def load_rows(
+        self,
+        table: str,
+        rows: list[dict],
+        write_disposition: str = "WRITE_APPEND",
+        schema: list[bigquery.SchemaField] | None = None,
+    ) -> int:
+
+        if not rows:
+            return 0
+
+        job_config = bigquery.LoadJobConfig(
+            source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+            write_disposition=write_disposition,
+        )
+
+        job = self.client.load_table_from_json(
+            json_rows=rows,
+            destination=table,
+            job_config=job_config,
+        )
+
+        job.result()
+
+        if job.errors:
+            raise RuntimeError(job.errors)
+
+        return len(rows) 
+       
+    def execute(self, sql: str):
+
+        job = self.client.query(sql)
+
+        job.result()
+
+        if job.errors:
+            raise RuntimeError(job.errors)
 
 
 
