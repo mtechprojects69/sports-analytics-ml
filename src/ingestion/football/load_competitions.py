@@ -1,4 +1,4 @@
-from pipelines.sports.football.competitions_pipeline import CompetitionsPipeline
+from pipelines.sports.football.load_from_src.competitions_pipeline import CompetitionsPipeline
 
 
 if __name__ == "__main__":

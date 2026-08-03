@@ -15,7 +15,6 @@ class CompetitionsPipeline(BasePipeline):
         return self.provider.get_competitions()
 
     def transform(self, data):
-        # Por enquanto não faz transformação
         return data
 
     def load(self, data):
